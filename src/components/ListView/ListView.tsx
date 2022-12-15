@@ -9,7 +9,7 @@ import { usePagination } from "hooks"
 import { useBackendAPI } from "hooks/useBackendAPI"
 import { cx, isArray } from "utils"
 
-export const ListView = () => {
+export function ListView() {
   const [page, limit, setPagination, resetPagination] = usePagination()
 
   const [listLoading, listResponse, reloadList] = useBackendAPI(
@@ -17,7 +17,7 @@ export const ListView = () => {
       route: { method: "get", url: "items" },
       defaultResult: EMPTY_VALUES.ARRAY,
       callback: (instance) => {
-        return instance.setQueryParams({ page, limit })
+        return instance.setQueryParams({ page, limit }).showLoader()
       },
       transform: (response) => {
         if (response.ok && isArray(response?.data)) return response?.data
