@@ -37,7 +37,8 @@ npm i
 | preview           | preview available build                     |
 | lint              | lint                                        |
 | lint:fix          | fix auto-fixable linter errors and warnings |
-| test              | test using `vitest`                         |
+| test              | `vitest run` (run unit tests)               |
+| test:watch        | `vitest watch` (watch for changes)          |
 
 #### Run locally
 

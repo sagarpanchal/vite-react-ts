@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "lint": "tsc && eslint \"src/**/*.{ts,tsx,js,jsx}\"",
     "lint:fix": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\" && eslint --fix \"src/**/*.{ts,tsx,js,jsx}\"",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
