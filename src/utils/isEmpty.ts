@@ -11,7 +11,7 @@ export function isEmpty(input: any, options: isEmptyOptions = {}): boolean {
   if ([undefined, null].includes(input)) return true
 
   if (input?.constructor?.name === "Array") return !input.length
-  if (input?.constructor?.name === "Number") return Number.isNaN(input)
+  if (input?.constructor?.name === "Number") return Number.isNaN(input) || !Number.isFinite(input)
   if (input?.constructor?.name === "Object") return !Object.keys(input).length
   if (input?.constructor?.name === "String") return !input.trim().length
 

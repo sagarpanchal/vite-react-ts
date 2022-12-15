@@ -15,7 +15,7 @@ interface pruneEmptyOptions extends isEmptyOptions {
  * @param {*} options options
  * @returns {boolean}
  */
-export function pruneEmpty<T>(input: T, options: pruneEmptyOptions): T | undefined
+export function pruneEmpty<T>(input: T, options?: pruneEmptyOptions): T | undefined
 export function pruneEmpty(input: any, options: any = {}): any {
   options = { clone: true, ...options }
   input = options.clone ? clone(input) : input

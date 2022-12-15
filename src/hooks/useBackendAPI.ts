@@ -6,7 +6,7 @@ import { BackendAPI } from "entities/BackendAPI"
 import { BackendAPIResponse } from "entities/BackendAPIResponse"
 
 import { useAutoRef } from "./useAutoRef"
-import { useLoading } from "./useLoader"
+import { useLoading } from "./useLoading"
 
 type TUseBackendAPIoptions<T, O> = {
   route: { method: AxiosRequestConfig["method"]; url: AxiosRequestConfig["url"] }

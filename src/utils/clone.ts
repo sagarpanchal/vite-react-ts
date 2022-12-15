@@ -1,5 +1,8 @@
-function baseClone(src: unknown, seen: WeakMap<any, unknown>): unknown
-function baseClone(src: any, seen: WeakMap<any, any>): any {
+function baseClone(src: unknown, seen: Map<any, unknown>): unknown
+function baseClone(src: any, seen: Map<any, any>): any {
+  // Immutable things - null, undefined, functions, symbols, etc.
+  if (!src || typeof src !== "object") return src
+
   // Things we've seen already (circular refs)
   if (seen.has(src)) return seen.get(src)
 
@@ -10,72 +13,53 @@ function baseClone(src: any, seen: WeakMap<any, any>): any {
   // 3. clone subordinate members
 
   let copy
-
-  if (src?.nodeType && "cloneNode" in src) {
+  if (src.nodeType && "cloneNode" in src) {
     // DOM Node
-    copy = src?.cloneNode?.(true)
+    copy = src.cloneNode(true)
     seen.set(src, copy)
-    return copy
-  }
-
-  if (src?.clone instanceof Function) {
-    // DOM Node
+  } else if (src?.clone instanceof Function) {
+    // Built in clone function
     copy = src?.clone?.()
     seen.set(src, copy)
-    return copy
-  }
-
-  if (src instanceof Date) {
+  } else if (src instanceof Date) {
     // Date
-    copy = new Date(src?.getTime?.())
+    copy = new Date(src.getTime())
     seen.set(src, copy)
-    return copy
-  }
-
-  if (src instanceof RegExp) {
+  } else if (src instanceof RegExp) {
     // RegExp
     copy = new RegExp(src)
     seen.set(src, copy)
-    return copy
-  }
-
-  if (Array.isArray(src)) {
+  } else if (Array.isArray(src)) {
     // Array
-    copy = new Array(src?.length)
-    for (let i = 0; i < src?.length; i++) copy[i] = baseClone(src[i], seen)
+    copy = new Array(src.length)
     seen.set(src, copy)
-    return copy
-  }
-
-  if (src instanceof Map) {
+    for (let i = 0; i < src.length; i++) copy[i] = baseClone(src[i], seen)
+  } else if (src instanceof Map) {
     // Map
     copy = new Map()
-    for (const [k, v] of src?.entries?.() ?? []) copy.set(k, baseClone(v, seen))
     seen.set(src, copy)
-    return copy
-  }
-
-  if (src instanceof Set) {
+    for (const [k, v] of src.entries()) copy.set(k, baseClone(v, seen))
+  } else if (src instanceof Set) {
     // Set
     copy = new Set()
-    for (const v of src) copy.add(baseClone(v, seen))
     seen.set(src, copy)
-    return copy
-  }
-
-  if (src instanceof Object) {
+    for (const v of src) copy.add(baseClone(v, seen))
+  } else if (src instanceof Object) {
     // Object
     copy = Object.assign(Object.create(Object.getPrototypeOf(src)), src)
-    for (const [k, v] of Object.entries(src)) copy[k] = baseClone(v, seen)
     seen.set(src, copy)
-    return copy
+    for (const [k, v] of Object.entries(src)) copy[k] = baseClone(v, seen)
+  } else {
+    // Unrecognized thing.  It's better to throw here than to return `src`, as
+    // we don't know whether src needs to be deep-copied here.
+    throw Error(`Unable to clone ${src}`)
   }
 
-  return src
+  return copy
 }
 
-export function clone<T>(src: T): T
-export function clone(src: any): any {
-  const seen: WeakMap<any, any> = new WeakMap()
+export function clone<T>(src?: T): T
+export function clone(src?: any): any {
+  const seen: Map<any, any> = new Map()
   return baseClone(src, seen)
 }

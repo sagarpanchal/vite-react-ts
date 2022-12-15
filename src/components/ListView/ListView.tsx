@@ -9,12 +9,12 @@ import { usePagination } from "hooks"
 import { useBackendAPI } from "hooks/useBackendAPI"
 import { cx, isArray } from "utils"
 
-export const ProductListView = () => {
+export const ListView = () => {
   const [page, limit, setPagination, resetPagination] = usePagination()
 
   const [listLoading, listResponse, reloadList] = useBackendAPI(
     {
-      route: { method: "get", url: "product" },
+      route: { method: "get", url: "items" },
       defaultResult: EMPTY_VALUES.ARRAY,
       callback: (instance) => {
         return instance.setQueryParams({ page, limit })
@@ -37,7 +37,7 @@ export const ProductListView = () => {
   return (
     <React.Fragment>
       <nav className={cx("navbar", "navbar-expand-lg", "bg-light")}>
-        <div className={cx("container")}>
+        <div className={cx("container-fluid")}>
           <div className={cx("col-auto")}>
             <div className={cx("row", "gx-2")}>
               <div className={cx("col-auto")}>
@@ -57,7 +57,7 @@ export const ProductListView = () => {
                   count={10}
                   total={100}
                   onChange={setPagination}
-                  entityLabel="Products"
+                  entityLabel="Items"
                 />
               </div>
             </div>

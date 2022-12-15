@@ -1,14 +1,18 @@
 import React from "react"
 
-import { ProductListView } from "components/ProductListView/ProductListView"
+import { ListView } from "components/ListView/ListView"
+
+import { cx } from "utils"
 
 export default function App() {
   return (
     <React.Fragment>
-      <span>
-        React.<small>js</small>
-      </span>
-      <ProductListView />
+      <ListView />
+      <div className={cx("container-fluid")}>
+        <span>
+          React.<small>js</small>
+        </span>
+      </div>
     </React.Fragment>
   )
 }
