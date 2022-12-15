@@ -1,0 +1,19 @@
+{
+  "[dotenv]": { "editor.defaultFormatter": "foxundermoon.shell-format" },
+  "[scss]": { "editor.defaultFormatter": "stylelint.vscode-stylelint" },
+  "[shellscript]": { "editor.defaultFormatter": "foxundermoon.shell-format" },
+  "css.validate": false,
+  "editor.codeActionsOnSave": { "source.fixAll": true },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.enable": true,
+  "files.associations": { "*.svg": "html" },
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "scss.validate": false,
+  "stylelint.enable": true,
+  "stylelint.validate": ["css", "scss"],
+  "typescript.validate.enable": true
+}
