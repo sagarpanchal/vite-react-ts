@@ -1,31 +1,30 @@
-import { createAction, createReducer, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-export const initState = {
-  count: 0,
+interface LoaderState {
+  count: number
 }
 
-export const loaderActions = {
-  increase: createAction("@loader/increase"),
-  decrease: createAction("@loader/decrease"),
-  adjust: createAction<number>("@loader/adjust"),
-  reset: createAction("@loader/reset"),
-}
+const initialState = { count: 0 } as LoaderState
 
-const loaderReducer = createReducer(initState, (builder) => {
-  builder
-    .addCase(loaderActions.increase.type, (state) => {
-      state.count = state.count + 1
-    })
-    .addCase(loaderActions.decrease.type, (state) => {
-      state.count = state.count - 1
-    })
-    .addCase(loaderActions.adjust.type, (state, { payload }: PayloadAction<number>) => {
-      const adjustment = state.count + payload
+const loaderSlice = createSlice({
+  name: "@loader",
+  initialState,
+  reducers: {
+    increase(state) {
+      state.count++
+    },
+    decrease(state) {
+      state.count--
+    },
+    adjust(state, action: PayloadAction<number>) {
+      const adjustment = state.count + action.payload
       state.count = adjustment > -1 ? adjustment : 0
-    })
-    .addCase(loaderActions.reset.type, (state) => {
+    },
+    reset(state) {
       state.count = 0
-    })
+    },
+  },
 })
 
-export default loaderReducer
+export const loaderActions = loaderSlice.actions
+export default loaderSlice.reducer
