@@ -11,5 +11,5 @@ type TFontIconProps = {
 export function FontIcon(props: TFontIconProps) {
   const { type = "box" } = props
 
-  return <i className={cx("bi", `bi-${type}`)} />
+  return <i className={cx(cx.withPostfix("bi", type))} />
 }

@@ -36,14 +36,14 @@ export const ListView = () => {
 
   return (
     <React.Fragment>
-      <nav className={cx("navbar", "navbar-expand-lg", "bg-light")}>
+      <nav className={cx(cx.withPostfix("navbar", "expand-lg"), "bg-light")}>
         <div className={cx("container-fluid")}>
           <div className={cx("col-auto")}>
             <div className={cx("row", "gx-2")}>
               <div className={cx("col-auto")}>
-                <button className={cx("btn", "btn-primary")} onClick={reloadList}>
+                <button className={cx(cx.withPostfix("btn", "primary"))} onClick={reloadList}>
                   {listLoading ? (
-                    <span className={cx("spinner-border", "spinner-border-sm")} role="status" aria-hidden="true" />
+                    <span className={cx(cx.withPostfix("spinner-border", "sm"))} role="status" aria-hidden="true" />
                   ) : (
                     <FontIcon type="arrow-repeat" />
                   )}
@@ -64,7 +64,7 @@ export const ListView = () => {
           </div>
         </div>
       </nav>
-      <div className={cx("container")}>
+      <div className={cx("container-fluid")}>
         <div className={cx("row", "py-2")}></div>
       </div>
     </React.Fragment>
