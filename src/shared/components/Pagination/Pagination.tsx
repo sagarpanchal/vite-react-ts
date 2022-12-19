@@ -122,7 +122,7 @@ export const Pagination: React.FC<IPaginationProps> = React.memo((props) => {
       {!noLimitSelector && <Select options={limitOptions} value={limit} onChange={handleLimitChange} />}
       <nav className={cx(styles["pagination-pages"])} aria-label="Pagination">
         <a href="#" className={cx(styles["page-link"])} onClick={gotoPrevPage}>
-          <FontIcon type="chevron-left" />
+          <FontIcon icon="chevron-left" />
           <span className="sr-only">Previous</span>
         </a>
         {formattedPages.map((_page, index) => {
@@ -145,7 +145,7 @@ export const Pagination: React.FC<IPaginationProps> = React.memo((props) => {
           )
         })}
         <a href="#" className={cx(styles["page-link"])} onClick={gotoNextPage}>
-          <FontIcon type="chevron-right" />
+          <FontIcon icon="chevron-right" />
           <span className="sr-only">Next</span>
         </a>
       </nav>
