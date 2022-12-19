@@ -13,6 +13,7 @@
 
   .page-link {
     @apply relative;
+    @apply outline-none;
     @apply inline-flex;
     @apply items-center;
     @apply border;
@@ -42,7 +43,6 @@
     }
 
     &:focus {
-      @apply outline-none;
       @apply border-neutral-500;
       @apply ring-4;
       @apply ring-neutral-500/[.5];

@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-// eslint-disable-next-line import/no-commonjs
+/* eslint-disable import/no-commonjs */
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 module.exports = {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
-  theme: {
-    extend: {},
-  },
+  theme: { extend: {} },
   plugins: [],
 }

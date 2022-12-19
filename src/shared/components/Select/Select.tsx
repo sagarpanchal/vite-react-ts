@@ -16,8 +16,8 @@ const classNames: ReactSelectProps["classNames"] = {
   control: ({ isDisabled, isFocused }) => {
     return cx(
       isDisabled ? "bg-neutral-50" : "bg-white",
-      isDisabled ? "border-neutral-100" : isFocused ? "border-neutral-800" : "border-neutral-300",
-      isFocused && "shadow-[0_0_0_1px] shadow-neutral-800",
+      isDisabled ? "border-neutral-100" : isFocused ? "border-neutral-800" : undefined,
+      isFocused && "border-neutral-500 ring-4 ring-neutral-500/[.5] ring-offset-0 ring-offset-neutral-100/[.55] z-20",
       isFocused ? "hover:border-neutral-800" : "hover:border-neutral-300",
       "rounded",
       "border-solid",

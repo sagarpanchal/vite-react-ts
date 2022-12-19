@@ -46,7 +46,7 @@ export function ReloadPrompt() {
               <button className={cx("btn btn-sm btn-primary me-2")} onClick={() => updateServiceWorker(true)}>
                 Reload
               </button>
-              <button className={cx("btn btn-sm btn-outline-secondary")} onClick={() => close()}>
+              <button className={cx("btn btn-sm btn-outline-neutral")} onClick={() => close()}>
                 Close
               </button>
             </div>

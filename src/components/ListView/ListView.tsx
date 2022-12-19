@@ -1,5 +1,7 @@
 import React from "react"
 
+import { Button } from "shared/components/Button"
+import { FontIcon } from "shared/components/Icon"
 import { Pagination } from "shared/components/Pagination"
 
 import { EMPTY_VALUES } from "utils/utils.constants"
@@ -11,7 +13,7 @@ import { isArray } from "utils"
 export function ListView() {
   const [page, limit, setPagination, resetPagination] = usePagination()
 
-  const [listLoading, listResponse] = useBackendAPI(
+  const [listLoading, listResponse, reloadList] = useBackendAPI(
     {
       route: { method: "get", url: "items" },
       defaultResult: EMPTY_VALUES.ARRAY,
@@ -35,15 +37,20 @@ export function ListView() {
 
   return (
     <div className="container px-4 py-3">
-      <Pagination
-        loading={listLoading}
-        page={page}
-        limit={limit}
-        count={10}
-        total={100}
-        onChange={setPagination}
-        entityLabel="Items"
-      />
+      <div className="isolate inline-flex gap-3">
+        <Button onClick={reloadList}>
+          <FontIcon icon="arrow-repeat" />
+        </Button>
+        <Pagination
+          loading={listLoading}
+          page={page}
+          limit={limit}
+          count={10}
+          total={100}
+          onChange={setPagination}
+          entityLabel="Items"
+        />
+      </div>
     </div>
   )
 }
