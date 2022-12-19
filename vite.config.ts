@@ -27,6 +27,7 @@ export default defineConfig(() => ({
     }),
     styleLint({
       fix: true,
+      customSyntax: "postcss-scss",
     }),
     pwa({
       devOptions: { enabled: false },

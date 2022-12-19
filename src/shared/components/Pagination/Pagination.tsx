@@ -5,11 +5,14 @@ import { invariant } from "@remix-run/router"
 import { FontIcon } from "shared/components/Icon"
 
 import type { Overwrite } from "utils/types"
+import { ArrayElement } from "utils/types"
 
-import { castToNumber, cx, isEmpty, isNumber } from "utils"
+import { castToNumber, cx, isEmpty, isNumber, stopEvent } from "utils"
 
 import { PAGE_LENGTH_OPTIONS } from "./Pagination.const"
 import styles from "./Pagination.module.scss"
+
+import { Select, SelectProps } from "../Select"
 
 const OVERFLOW_DOTS = "..."
 
@@ -54,7 +57,7 @@ function getPages(total: number, current: number, delta = 1, gap = OVERFLOW_DOTS
   return [1, ...filteredCenter, total]
 }
 
-export function Pagination(props: IPaginationProps) {
+export const Pagination: React.FC<IPaginationProps> = React.memo((props) => {
   const {
     page = 1,
     limit = PAGE_LENGTH_OPTIONS[1],
@@ -71,8 +74,8 @@ export function Pagination(props: IPaginationProps) {
 
   invariant(isNumber(page) && page > 0, "prop `page` must be a non-zero positive number")
   invariant(isNumber(limit) && limit > 0, "prop `limit` must be a non-zero positive number")
-  invariant(isNumber(total) && total > -1, "prop `page` must be a positive number")
-  invariant(isNumber(count) && count > -1, "prop `page` must be a positive number")
+  invariant(isNumber(total) && total > -1, "prop `total` must be a positive number")
+  invariant(isNumber(count) && count > -1, "prop `count` must be a positive number")
 
   const totalPages = React.useMemo(() => (total === 0 ? 1 : Math.ceil(total / limit)), [limit, total])
 
@@ -80,7 +83,7 @@ export function Pagination(props: IPaginationProps) {
 
   const gotoPrevPage = React.useCallback(
     (e?: React.FormEvent<HTMLAnchorElement>) => {
-      void e?.preventDefault?.()
+      stopEvent(e)
       if (page !== 1) onChange(page - 1, limit)
     },
     [limit, onChange, page],
@@ -88,82 +91,70 @@ export function Pagination(props: IPaginationProps) {
 
   const gotoNextPage = React.useCallback(
     (e?: React.FormEvent<HTMLAnchorElement>) => {
-      void e?.preventDefault?.()
+      stopEvent(e)
       if (page !== totalPages) onChange(page + 1, limit)
     },
     [limit, onChange, page, totalPages],
   )
 
-  const handleLimitChange = React.useCallback(
-    (e: React.FormEvent<HTMLSelectElement>) => {
-      onChange(1, castToNumber(e.currentTarget.value, 0))
-    },
-    [onChange],
-  )
-
-  const lengthOptions = (() => {
+  const limitOptions = (() => {
     if (isEmpty(total) || loading) return PAGE_LENGTH_OPTIONS
     const lastIndex = PAGE_LENGTH_OPTIONS.findIndex((page) => page >= total)
     return PAGE_LENGTH_OPTIONS.slice(0, lastIndex + 1)
+  })().map((value) => ({ label: value, value: value }))
+
+  const handleLimitChange: SelectProps["onChange"] = (_option: unknown) => {
+    const option = (_option ?? {}) as ArrayElement<typeof limitOptions>
+    onChange(1, castToNumber(option.value, PAGE_LENGTH_OPTIONS[0]))
+  }
+
+  const countDescriptionTest = (() => {
+    if (noCountDescription) return ""
+    if (loading) return `Loading ${entityLabel}`
+
+    const nStart = count > 0 ? (page - 1) * limit + 1 : 0
+    const nEnd = count > 0 ? (page - 1) * limit + count : 0
+    return `${nStart} - ${nEnd} of ${total} ${entityLabel}`
   })()
 
   return (
-    <div className={cx(styles["pagination"], "row", "gx-2", loading && "cursor-progress", className)} {...rest}>
-      {!noLimitSelector && (
-        <div className={cx(styles["pagination-limit-select"], "col-auto")}>
-          <select value={limit} onChange={handleLimitChange} className="form-select">
-            {lengthOptions.map((limit, index) => (
-              <option key={`${limit}_${index}`} value={limit}>
-                {limit}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-      <div className="col-auto">
-        <div className={cx(styles["pagination-pagination"], "pagination")}>
-          <div className={cx("page-item")}>
-            <a href="#" className={cx("page-link")} onClick={gotoPrevPage}>
-              <FontIcon type="chevron-left" />
-            </a>
-          </div>
-          {formattedPages.map((_page, index) => {
-            const handleClick = (e?: React.FormEvent<HTMLAnchorElement>) => {
-              void e?.preventDefault?.()
-              onChange(castToNumber(_page, 0), limit)
-            }
+    <div className={cx(styles["pagination"], loading && "cursor-progress", className)} {...rest}>
+      {!noLimitSelector && <Select options={limitOptions} value={limit} onChange={handleLimitChange} />}
+      <nav className={cx(styles["pagination-pages"])} aria-label="Pagination">
+        <a href="#" className={cx(styles["page-link"])} onClick={gotoPrevPage}>
+          <FontIcon type="chevron-left" />
+          <span className="sr-only">Previous</span>
+        </a>
+        {formattedPages.map((_page, index) => {
+          const isEllipsis = _page === OVERFLOW_DOTS
 
-            return (
-              <div key={`${_page}_${index}`} className={cx("page-item", _page === page && "active")}>
-                <a href="#" className={cx("page-link")} onClick={_page !== OVERFLOW_DOTS ? handleClick : undefined}>
-                  {_page}
-                </a>
-              </div>
-            )
-          })}
-          <div className={cx("page-item")}>
-            <a href="#" className={cx("page-link")} onClick={gotoNextPage}>
-              <FontIcon type="chevron-right" />
+          const handleClick = (e?: React.FormEvent<HTMLAnchorElement>) => {
+            stopEvent(e)
+            if (!isEllipsis) onChange(castToNumber(_page, 0), limit)
+          }
+
+          return (
+            <a
+              key={isEllipsis ? `ellip_${index}` : `page_${_page}`}
+              className={cx(styles["page-link"], _page === page && styles["page-link-active"])}
+              onClick={handleClick}
+              href="#"
+            >
+              {_page}
             </a>
-          </div>
-        </div>
-      </div>
+          )
+        })}
+        <a href="#" className={cx(styles["page-link"])} onClick={gotoNextPage}>
+          <FontIcon type="chevron-right" />
+          <span className="sr-only">Next</span>
+        </a>
+      </nav>
       {!noCountDescription && (
-        <div className={cx(styles["pagination-count"], "col-auto", "my-auto")}>
-          <span>
-            {loading && (
-              <span className="spinner-border spinner-border-sm mx-2" role="status" aria-hidden="true"></span>
-            )}
-            {(() => {
-              if (loading) return `Loading ${entityLabel}`
-
-              const nStart = count > 0 ? (page - 1) * limit + 1 : 0
-              const nEnd = count > 0 ? (page - 1) * limit + count : 0
-              return `${nStart} - ${nEnd} of ${total} ${entityLabel}`
-            })()}
-          </span>
+        <div className={cx(styles["pagination-count"])}>
+          <span>{countDescriptionTest}</span>
         </div>
       )}
     </div>
   )
-}
+})
+Pagination.displayName = "Pagination"

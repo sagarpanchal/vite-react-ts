@@ -1,0 +1,27 @@
+.button {
+  @apply inline-flex;
+  @apply justify-center;
+  @apply rounded-md;
+  @apply border;
+  @apply border-transparent;
+  @apply bg-neutral-600;
+  @apply py-2;
+  @apply px-4;
+  @apply text-sm;
+  @apply font-medium;
+  @apply text-white;
+  @apply shadow-sm;
+
+  :hover {
+    @apply bg-neutral-700;
+  }
+
+  :focus {
+    @apply outline-none;
+    @apply ring-4;
+    @apply ring-neutral-500/[.5];
+    @apply ring-offset-0;
+    @apply ring-offset-neutral-100/[.55];
+    @apply z-20;
+  }
+}

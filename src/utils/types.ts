@@ -11,3 +11,7 @@ export type Cons<H, T> = T extends readonly any[]
 export type GenericObject = {
   [k: string | number | symbol]: GenericObject | unknown
 }
+
+export type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[]
+  ? ElementType
+  : never

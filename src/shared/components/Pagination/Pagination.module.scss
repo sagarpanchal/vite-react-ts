@@ -1,5 +1,64 @@
 .pagination {
-  select {
-    max-width: 6rem;
+  @apply isolate;
+  @apply inline-flex;
+  @apply gap-3;
+}
+
+.pagination-pages {
+  @apply isolate;
+  @apply inline-flex;
+  @apply -space-x-px;
+  @apply rounded;
+  @apply shadow-sm;
+
+  .page-link {
+    @apply relative;
+    @apply inline-flex;
+    @apply items-center;
+    @apply border;
+    @apply border-neutral-300;
+    @apply bg-white;
+    @apply px-4;
+    @apply py-2;
+    @apply text-sm;
+    @apply font-medium;
+    @apply text-neutral-500;
+
+    &:first-child {
+      @apply rounded-l;
+    }
+
+    &:last-child {
+      @apply rounded-r;
+    }
+
+    &:hover {
+      @apply border-neutral-500;
+      @apply z-10;
+
+      &:not(.page-link-active){
+        @apply bg-neutral-100;
+      }
+    }
+
+    &:focus {
+      @apply outline-none;
+      @apply border-neutral-500;
+      @apply ring-4;
+      @apply ring-neutral-500/[.5];
+      @apply ring-offset-0;
+      @apply ring-offset-neutral-100/[.55];
+      @apply z-20;
+    }
+
+    &-active  {
+      @apply border-neutral-500;
+      @apply bg-neutral-600;
+      @apply text-neutral-50 z-10;
+    }
   }
+}
+
+.pagination-count {
+  @apply my-auto;
 }

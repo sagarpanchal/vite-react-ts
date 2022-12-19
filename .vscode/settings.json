@@ -1,6 +1,7 @@
 {
   "[dotenv]": { "editor.defaultFormatter": "foxundermoon.shell-format" },
   "[ignore]": { "editor.defaultFormatter": "foxundermoon.shell-format" },
+  "[css]": { "editor.defaultFormatter": "stylelint.vscode-stylelint" },
   "[scss]": { "editor.defaultFormatter": "stylelint.vscode-stylelint" },
   "[shellscript]": { "editor.defaultFormatter": "foxundermoon.shell-format" },
   "css.validate": false,
