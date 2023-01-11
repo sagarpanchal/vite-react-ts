@@ -1,0 +1,87 @@
+.previewer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  &-overlay {
+    position: absolute;
+    inset: 0 0 0 0;
+    cursor: grab;
+
+    &-visible {
+      z-index: 3;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &-content {
+    position: absolute;
+    inset: 0 0 0 0;
+    width: 0;
+    height: 0;
+    margin: auto;
+    will-change: transform;
+  }
+
+  &-controls {
+    position: absolute #{"!important"};
+    inset: auto 50% 1rem 50%;
+    z-index: 20;
+    display: inline-flex;
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+    overflow: hidden;
+    color: #fff;
+    background-color: #555;
+    transform: translateX(-50%);
+
+    button {
+      padding: .75rem;
+
+      &.active {
+        background-color: #000;
+      }
+    }
+  }
+
+  &-window {
+    display: flex;
+    flex-direction: column;
+
+    &-titlebar {
+      display: flex;
+      flex-direction: row;
+      padding: .75rem;
+      font-size: 1.25rem;
+      cursor: grab;
+      background-color: #fff;
+      border: 1px solid #555;
+    }
+
+    &-body {
+      height: fit-content;
+      padding: .75rem;
+      background-color: #fff;
+      border: 1px solid #555;
+    }
+
+    &:hover,
+    &:focus,
+    &:focus-within {
+      z-index: 1;
+
+      &-titlebar {
+        background-color: #000;
+      }
+
+      &-body {
+        border: 1px solid #000;
+      }
+    }
+  }
+}

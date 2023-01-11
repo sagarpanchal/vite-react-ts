@@ -1,0 +1,1 @@
+export { FontIcon } from "./Icon"
