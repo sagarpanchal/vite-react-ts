@@ -1,0 +1,54 @@
+.previewer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  &-overlay {
+    position: absolute;
+    inset: 0 0 0 0;
+    cursor: grab;
+
+    &-visible {
+      z-index: 3;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &-content {
+    position: absolute;
+    inset: 0 0 0 0;
+    width: 0;
+    height: 0;
+    margin: auto;
+  }
+
+  &-controls {
+    position: absolute #{"!important"};
+    inset: auto 50% 1rem 50%;
+    z-index: 20;
+    transform: translateX(-50%);
+  }
+
+  &-window {
+    display: flex;
+    flex-direction: column;
+
+    &-titlebar {
+      display: flex;
+      flex-direction: row;
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    &-body {
+      height: fit-content;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@import "styles/base";
+
+.pagination {
+  select {
+    max-width: 6rem;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .pagination {
+    &-limit-select {
+      display: none;
+    }
+  }
+}

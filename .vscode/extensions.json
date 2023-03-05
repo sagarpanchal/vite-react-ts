@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "foxundermoon.shell-format",
+    "mattpocock.ts-error-translator",
+    "mikestead.dotenv",
+    "rintoj.blank-line-organizer",
+    "streetsidesoftware.code-spell-checker",
+    "stylelint.vscode-stylelint",
+    "timonwong.shellcheck",
+    "ZixuanChen.vitest-explorer"
+  ]
+}

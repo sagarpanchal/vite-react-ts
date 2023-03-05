@@ -1,0 +1,102 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": { "jsx": true },
+    "ecmaVersion": 2021,
+    "sourceType": "module"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "plugins": ["@typescript-eslint", "import", "jsx-a11y", "react", "react-hooks", "prettier"],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [1, { "ignoreRestSiblings": true, "args": "after-used" }],
+    "@typescript-eslint/no-explicit-any": [0, { "ignoreRestArgs": true }],
+    "array-callback-return": [1, { "allowImplicit": true }],
+    "global-require": 2,
+    "import/default": 2,
+    "import/export": 2,
+    "import/named": 2,
+    "import/namespace": 2,
+    "import/newline-after-import": 1,
+    "import/no-commonjs": 1,
+    "import/no-cycle": [2, { "maxDepth": 1, "ignoreExternal": true }],
+    "import/no-deprecated": 1,
+    "import/no-duplicates": 0,
+    "import/no-mutable-exports": 2,
+    "import/no-named-as-default": 1,
+    "import/no-named-as-default-member": 0,
+    "import/no-self-import": 2,
+    "import/no-unresolved": 2,
+    "import/no-useless-path-segments": [2, { "noUselessIndex": true }],
+    "import/order": [
+      1,
+      {
+        "alphabetize": { "order": "asc", "caseInsensitive": false },
+        "groups": ["unknown", "builtin", "external", "internal", "sibling", "parent", "index", "object"],
+        "newlines-between": "always",
+        "pathGroups": [
+          { "pattern": "vite", "group": "unknown", "position": "before" },
+          { "pattern": "+(react|redux)**", "group": "unknown", "position": "before" },
+          { "pattern": "**/+(shared)/**", "group": "internal", "position": "before" },
+          { "pattern": "**/+(routes)/**", "group": "internal", "position": "before" },
+          { "pattern": "**/+(containers)/**", "group": "internal", "position": "before" },
+          { "pattern": "**/+(components)/**", "group": "internal", "position": "before" },
+          { "pattern": "**/+(services)/**", "group": "internal", "position": "before" },
+          { "pattern": "**/+(utils)/**", "group": "internal", "position": "before" },
+          { "pattern": "**/+(constants)/**", "group": "internal", "position": "before" },
+          { "pattern": "**/**.+(css|scss|svg|png|jpg|jpeg)", "group": "index", "position": "after" }
+        ],
+        "pathGroupsExcludedImportTypes": ["+(react|redux)**"]
+      }
+    ],
+    "no-console": [1, { "allow": ["info", "warn", "error"] }],
+    "no-multi-assign": 1,
+    "no-unused-vars": 0,
+    "no-use-before-define": 0,
+    "no-var": 2,
+    "one-var": [2, "never"],
+    "prefer-arrow-callback": 1,
+    "prefer-const": 1,
+    "prefer-object-spread": 1,
+    "padding-line-between-statements": [
+      2,
+      { "blankLine": "always", "prev": ["block-like"], "next": ["singleline-const", "singleline-let", "return"] },
+      { "blankLine": "always", "prev": ["*"], "next": ["class", "export"] },
+      { "blankLine": "any", "prev": ["export"], "next": ["export"] }
+    ],
+    "padded-blocks": ["error", "never"],
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+    "prettier/prettier": 1,
+    "react/display-name": 0,
+    "react/no-unescaped-entities": 0,
+    "react/prop-types": 0,
+    "no-debugger": 1
+    // "react-hooks/exhaustive-deps": ["warn", { "additionalHooks": "()" }]
+  },
+  "settings": {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "import/resolver": {
+      "typescript": {},
+      "node": { "paths": ["./src"] }
+    },
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
+}
