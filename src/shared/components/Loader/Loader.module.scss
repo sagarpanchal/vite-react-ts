@@ -1,0 +1,24 @@
+@import "../../../styles/variables";
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: $zindex-toast - 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .3s;
+
+  &-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba($modal-backdrop-bg, $modal-backdrop-opacity);
+  }
+
+  &-visible {
+    pointer-events: auto;
+    opacity: 1;
+  }
+}

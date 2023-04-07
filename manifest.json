@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Vite + React",
+  "short_name": "Vite + React",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "description": "A vite react app.",
+  "icons": [
+    { "src": "icons/icon-512-512.png", "sizes": "512x512" },
+    { "src": "icons/icon-192-192.png", "sizes": "192x192" },
+    { "src": "icons/icon-144-144.png", "sizes": "144x144" },
+    { "src": "icons/icon-96-96.png", "sizes": "96x96" },
+    { "src": "icons/icon-72-72.png", "sizes": "72x72" },
+    { "src": "icons/icon-48-48.png", "sizes": "48x48" }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "revision": null,
+      "url": "https://play.google.com/store/apps/details?id=com.android.chrome"
+    }
+  ]
+}

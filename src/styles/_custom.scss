@@ -1,0 +1,19 @@
+body:not(.sb-show-main) > #root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-height: 100vh;
+}
+
+.no-caret {
+  &.dropdown-toggle::after,
+  >.dropdown-toggle::after {
+    display: "";
+  }
+}
+
+// @include media-breakpoint-up(sm) { ... }
+// @include media-breakpoint-up(md) { ... }
+// @include media-breakpoint-up(lg) { ... }
+// @include media-breakpoint-up(xl) { ... }
+// @include media-breakpoint-up(xxl) { ... }

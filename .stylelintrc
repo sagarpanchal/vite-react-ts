@@ -1,0 +1,9 @@
+{
+  "extends": "stylelint-config-twbs-bootstrap",
+  "customSyntax": "postcss-scss",
+  "rules": {
+    "scss/at-rule-no-unknown": [true, { "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen"] }],
+    "selector-no-qualifying-type": [true, { "ignore": ["attribute", "class"] }],
+    "selector-max-id": [1]
+  }
+}
