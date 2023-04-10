@@ -3,7 +3,6 @@ import { hasKey } from "./hasKey"
 import { isArray } from "./isArray"
 import { isFunction } from "./isFunction"
 import { isObject } from "./isObject"
-import { typeOf } from "./typeOf"
 import { GenericObject } from "./types"
 
 /**
@@ -50,7 +49,7 @@ export function deepEquals(a: unknown, b: unknown): boolean {
   }
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  if (typeOf(a, "Date") || (isFunction(a?.valueOf) && isFunction(b?.valueOf))) {
+  if (a?.constructor === Date || (isFunction(a?.valueOf) && isFunction(b?.valueOf))) {
     return a?.valueOf?.() === b?.valueOf?.()
   }
 
