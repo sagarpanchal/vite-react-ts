@@ -21,19 +21,16 @@ function NameDisplay({ nameKey }: { nameKey: keyof State }) {
 }
 
 function NameInput({ nameKey }: { nameKey: keyof State }) {
-  const [, setNames] = useContextSelector(() => undefined)
+  const [name, setNames] = useContextSelector((state) => state[nameKey])
 
-  const handleChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNames({ [nameKey]: e.target.value })
-    },
-    [nameKey, setNames],
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setNames({ [nameKey]: e.target.value })
+
+  return (
+    <input className="form-control" type="text" placeholder={`Enter ${nameKey}`} value={name} onChange={handleChange} />
   )
-
-  return <input className="form-control" type="text" placeholder={`Enter ${nameKey}`} onChange={handleChange} />
 }
 
-export function NameForm() {
+export const NameForm = React.memo(() => {
   return (
     <Provider>
       <fieldset>
@@ -48,4 +45,5 @@ export function NameForm() {
       </fieldset>
     </Provider>
   )
-}
+})
+NameForm.displayName = "NameForm"

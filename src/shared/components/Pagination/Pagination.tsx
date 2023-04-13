@@ -1,6 +1,7 @@
 import React from "react"
 
 import invariant from "invariant"
+import { memoize } from "lodash-es"
 
 import { FontIcon } from "shared/components/Icon"
 
@@ -13,45 +14,48 @@ const OVERFLOW_DOTS = "..." as const
 
 export interface PaginationProps
   extends Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "onChange"> {
-  page?: number // current page
-  limit?: number // current limit
-  total?: number // total count
-  count?: number // data.length
+  page: number // current page
+  limit: number // current limit
+  total: number // total count
+  count: number // data.length
   loading?: boolean // list is loading
-  entityLabel?: string // label for entity
+  entityLabel: string // label for entity
   noLimitSelector?: boolean // limit dropdown
   noCountDescription?: boolean // display items 1-10 of 1000
-  onChange?: (page: number, limit: number) => void // display limit Selection
+  onChange: (page: number, limit: number) => void // display limit Selection
 }
 
 // get list of pages [1,2,3,...,10]
-function getPages(total: number, current: number, delta = 1, gap = OVERFLOW_DOTS) {
-  if (total <= 1) return [1]
+const getPages = memoize(
+  (total: number, current: number, delta = 1, gap = OVERFLOW_DOTS) => {
+    if (total <= 1) return [1]
 
-  const center = [current] as (number | typeof gap)[]
+    const center = [current] as (number | typeof gap)[]
 
-  // no longer O(1) but still very fast
-  for (let i = 1; i <= delta; i++) {
-    center.unshift(current - i)
-    center.push(current + i)
-  }
+    // no longer O(1) but still very fast
+    for (let i = 1; i <= delta; i++) {
+      center.unshift(current - i)
+      center.push(current + i)
+    }
 
-  const filteredCenter = center.filter((page) => isNumber(page) && page > 1 && page < total)
+    const filteredCenter = center.filter((page) => isNumber(page) && page > 1 && page < total)
 
-  const includeLeftGap = current > 3 + delta
-  const includeLeftPages = current === 3 + delta
-  const includeRightGap = current < total - (2 + delta)
-  const includeRightPages = current === total - (2 + delta)
+    const includeLeftGap = current > 3 + delta
+    const includeLeftPages = current === 3 + delta
+    const includeRightGap = current < total - (2 + delta)
+    const includeRightPages = current === total - (2 + delta)
 
-  if (includeLeftPages) filteredCenter.unshift(2)
-  if (includeRightPages) filteredCenter.push(total - 1)
-  if (includeLeftGap) filteredCenter.unshift(gap)
-  if (includeRightGap) filteredCenter.push(gap)
+    if (includeLeftPages) filteredCenter.unshift(2)
+    if (includeRightPages) filteredCenter.push(total - 1)
+    if (includeLeftGap) filteredCenter.unshift(gap)
+    if (includeRightGap) filteredCenter.push(gap)
 
-  return [1, ...filteredCenter, total]
-}
+    return [1, ...filteredCenter, total]
+  },
+  (...args) => args.join("#"),
+)
 
-export function Pagination(props: PaginationProps) {
+export const Pagination = React.memo<PaginationProps>((props) => {
   const {
     page = 1,
     limit = PAGE_LENGTH_OPTIONS[1],
@@ -71,29 +75,38 @@ export function Pagination(props: PaginationProps) {
   invariant(isNumber(total) && total > -1, "prop `page` must be a positive number")
   invariant(isNumber(count) && count > -1, "prop `page` must be a positive number")
 
+  const propsRef = React.useRef(props)
+  propsRef.current = props
+
   const totalPages = total === 0 ? 1 : Math.ceil(total / limit)
 
   const formattedPages = getPages(totalPages, page)
 
-  const gotoPrevPage = (e?: React.FormEvent<HTMLAnchorElement>) => {
+  const gotoPrevPage = React.useCallback((e?: React.FormEvent<HTMLAnchorElement>) => {
     stopEvent(e)
+    const { page, limit, onChange } = propsRef.current
     if (page !== 1) onChange(page - 1, limit)
-  }
+  }, [])
 
-  const gotoNextPage = (e?: React.FormEvent<HTMLAnchorElement>) => {
-    stopEvent(e)
-    if (page !== totalPages) onChange(page + 1, limit)
-  }
+  const gotoNextPage = React.useCallback(
+    (e?: React.FormEvent<HTMLAnchorElement>) => {
+      stopEvent(e)
+      const { page, limit, onChange } = propsRef.current
+      if (page !== totalPages) onChange(page + 1, limit)
+    },
+    [totalPages],
+  )
 
-  const handleLimitChange = (e: React.FormEvent<HTMLSelectElement>) => {
+  const handleLimitChange = React.useCallback((e: React.FormEvent<HTMLSelectElement>) => {
+    const { onChange } = propsRef.current
     onChange(1, castToNumber(e.currentTarget.value, 0))
-  }
+  }, [])
 
-  const lengthOptions = (() => {
+  const lengthOptions = React.useMemo(() => {
     if (isEmpty(total) || loading) return PAGE_LENGTH_OPTIONS
     const lastIndex = PAGE_LENGTH_OPTIONS.findIndex((page) => page >= total)
     return PAGE_LENGTH_OPTIONS.slice(0, lastIndex + 1)
-  })()
+  }, [loading, total])
 
   const countDescription = (() => {
     const output = { ariaLabel: "", label: "" }
@@ -187,4 +200,5 @@ export function Pagination(props: PaginationProps) {
       )}
     </div>
   )
-}
+})
+Pagination.displayName = "Pagination"

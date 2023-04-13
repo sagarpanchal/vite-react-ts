@@ -1,9 +1,10 @@
 import React from "react"
-import { Container, Navbar } from "react-bootstrap"
 
 import { FontIcon } from "shared/components/Icon"
 import { MaskedInput } from "shared/components/Input"
 import { Pagination } from "shared/components/Pagination"
+
+import { NameForm } from "components/Context/FastContextDemo"
 
 import { EMPTY_VALUES } from "utils/utils.constants"
 
@@ -11,8 +12,6 @@ import { useInput, usePagination } from "hooks"
 import { useBackendAPI } from "hooks/useBackendAPI"
 import { INPUT_MASKS } from "libraries/InputMask/input-masks"
 import { cx, isArray, logInfo } from "utils"
-
-import { NameForm } from "./fastContextDemo"
 
 type Todo = {
   userId: number
@@ -50,7 +49,7 @@ export function ListView() {
 
   return (
     <React.Fragment>
-      <Container fluid className="py-3">
+      <div className="container-fluid py-3">
         <div className="row">
           <div className="col">
             <div className="mb-3" style={{ maxWidth: "192px" }}>
@@ -71,12 +70,12 @@ export function ListView() {
             <NameForm />
           </div>
         </div>
-      </Container>
-      <Navbar bg="body-tertiary" expand="sm" className="mt-auto border-top sticky-bottom">
-        <Container fluid>
-          <div className={cx("col-auto", "me-auto", "ms-auto", "me-sm-0")}>
-            <div className={cx("row", "gx-2")}>
-              <div className={cx("col-auto", "d-none", "d-sm-flex")}>
+      </div>
+      <nav className="mt-auto border-top sticky-bottom navbar navbar-expand-sm navbar-light bg-body-tertiary">
+        <div className="container-fluid">
+          <div className="col-auto me-auto ms-auto me-sm-0">
+            <div className="row gx-2">
+              <div className="col-auto d-none d-sm-flex">
                 <button className={cx(cx.withPostfix("btn", "primary"))} onClick={reloadList}>
                   {listLoading ? (
                     <span className={cx(cx.withPostfix("spinner-border", "sm"))} role="status" aria-hidden="true" />
@@ -85,7 +84,7 @@ export function ListView() {
                   )}
                 </button>
               </div>
-              <div className={cx("col-auto")}>
+              <div className="col-auto">
                 <Pagination
                   loading={listLoading}
                   page={page}
@@ -98,8 +97,8 @@ export function ListView() {
               </div>
             </div>
           </div>
-        </Container>
-      </Navbar>
+        </div>
+      </nav>
     </React.Fragment>
   )
 }

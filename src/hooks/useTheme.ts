@@ -21,16 +21,23 @@ export function useTheme() {
 }
 
 export function useApplyThemeChanges() {
-  const theme = useSelector<RootState, RootState["theme"]>((state) => state.theme)
+  const themeRef = React.useRef(store.getState().theme as RootState["theme"])
 
   React.useLayoutEffect(() => {
-    document.documentElement.setAttribute(
-      "data-bs-theme",
-      !["light", "dark"].includes(theme.type)
-        ? window.matchMedia("(prefers-color-scheme: dark)")?.matches
-          ? "dark"
-          : "light"
-        : theme.type,
-    )
-  }, [theme])
+    return store.subscribe(() => {
+      const theme = store.getState().theme as RootState["theme"]
+      if (themeRef.current.type === theme?.type) return
+
+      document.documentElement.setAttribute(
+        "data-bs-theme",
+        !["light", "dark"].includes(theme.type)
+          ? window.matchMedia("(prefers-color-scheme: dark)")?.matches
+            ? "dark"
+            : "light"
+          : theme.type,
+      )
+
+      themeRef.current = theme
+    })
+  }, [])
 }

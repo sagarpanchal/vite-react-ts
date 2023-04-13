@@ -4,7 +4,14 @@ import { describe, expect, it } from "vitest"
 import { PaginationProps, Pagination } from "../Pagination"
 
 describe("Pagination functions", () => {
-  let props: PaginationProps = { loading: false, page: 1, limit: 10, count: 5, total: 100, entityLabel: "Products" }
+  let props: Omit<PaginationProps, "onChange"> = {
+    loading: false,
+    page: 1,
+    limit: 10,
+    count: 5,
+    total: 100,
+    entityLabel: "Products",
+  }
   const handlePaginationChange = (page = props.page, limit = props.limit) => void (props = { ...props, page, limit })
 
   const result = render(<Pagination {...props} onChange={handlePaginationChange} />)
