@@ -1,0 +1,1 @@
+export { createFastContext } from "./createFastContext"

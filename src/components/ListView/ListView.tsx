@@ -12,6 +12,8 @@ import { useBackendAPI } from "hooks/useBackendAPI"
 import { INPUT_MASKS } from "libraries/InputMask/input-masks"
 import { cx, isArray, logInfo } from "utils"
 
+import { NameForm } from "./fastContextDemo"
+
 type Todo = {
   userId: number
   id: number
@@ -52,15 +54,21 @@ export function ListView() {
         <div className="row">
           <div className="col">
             <div className="mb-3" style={{ maxWidth: "192px" }}>
+              <label htmlFor="phone">Masked Phone Input</label>
               <MaskedInput
                 mask={INPUT_MASKS.PHONE}
                 value={phone}
                 onChange={setPhone.handleChange}
                 className="form-control"
                 name="phone"
-                placeholder="Masked Phone Input"
+                placeholder="Phone Number"
               />
             </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <NameForm />
           </div>
         </div>
       </Container>
