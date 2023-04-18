@@ -10,7 +10,6 @@
     "rintoj.blank-line-organizer",
     "streetsidesoftware.code-spell-checker",
     "stylelint.vscode-stylelint",
-    "timonwong.shellcheck",
-    "ZixuanChen.vitest-explorer"
+    "timonwong.shellcheck"
   ]
 }

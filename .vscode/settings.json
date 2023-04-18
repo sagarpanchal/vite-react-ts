@@ -26,6 +26,5 @@
   "scss.validate": false,
   "stylelint.enable": true,
   "stylelint.validate": ["css", "scss"],
-  "testing.automaticallyOpenPeekView": "failureAnywhere",
   "typescript.validate.enable": true
 }
