@@ -8,8 +8,8 @@ export function createFastContext<Store>(initialState: Store) {
 
     const get = React.useCallback(() => store.current, [])
 
-    const set = React.useCallback((value: Partial<Store>) => {
-      store.current = { ...store.current, ...value }
+    const set = React.useCallback((callback: (state: Store) => Store) => {
+      store.current = callback(store.current)
       subscribers.current.forEach((callback) => callback())
     }, [])
 
@@ -28,9 +28,15 @@ export function createFastContext<Store>(initialState: Store) {
     return <StoreContext.Provider value={useStoreData()}>{children}</StoreContext.Provider>
   }
 
-  function useContextSelector<SelectorOutput>(selector: (store: Store) => SelectorOutput) {
+  function useContextStore() {
     const store = React.useContext(StoreContext)
     if (!store) throw new Error("Store not found")
+
+    return store
+  }
+
+  function useContextSelector<SelectorOutput>(selector: (store: Store) => SelectorOutput) {
+    const store = useContextStore()
 
     const state = React.useSyncExternalStore(
       store.subscribe,
@@ -38,8 +44,8 @@ export function createFastContext<Store>(initialState: Store) {
       () => selector(initialState),
     )
 
-    return [state, store.set] as const
+    return state
   }
 
-  return { Provider, useContextSelector }
+  return { Provider, useContextSelector, useContextStore }
 }
