@@ -1,9 +1,7 @@
 import React from "react"
 
-import Inputmask from "inputmask"
-
-import { InputMask } from "libraries/InputMask"
-import { INPUT_MASKS } from "libraries/InputMask/input-masks"
+import { Inputmask } from "libraries/inputmask"
+import { INPUT_MASKS } from "libraries/inputmask/input-masks"
 import { catchError, isString } from "utils"
 
 type Props = React.ComponentProps<"input"> & {
@@ -19,7 +17,7 @@ export const MaskedInput = React.memo(
 
     React.useLayoutEffect(() => {
       if (inputRef instanceof HTMLInputElement) {
-        const inputMask = new InputMask(isString(mask) ? INPUT_MASKS[mask] : mask)
+        const inputMask = new Inputmask(isString(mask) ? INPUT_MASKS[mask] : mask)
         catchError(() => inputMask.mask(inputRef))
         return () => {
           catchError(() => inputMask.remove())

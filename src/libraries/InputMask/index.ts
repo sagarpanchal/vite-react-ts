@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import Inputmask from "inputmask"
+import type inputmask from "inputmask"
 // @ts-ignore
-import InputmaskPhoneExt from "inputmask.phone/dist/inputmask.phone/inputmask.phone.extensions"
+import mask from "inputmask/lib/inputmask"
 
+// @ts-ignore
+import { maskPhoneFactory } from "./inputmask-phone"
+// @ts-ignore
 import { PhoneCode, PHONE_CODES } from "./phone-codes"
 
 const phoneCodes = PHONE_CODES.map((code) => {
@@ -12,8 +15,10 @@ const phoneCodes = PHONE_CODES.map((code) => {
   return phoneCode
 })
 
-// @ts-ignore
-Inputmask.extendAliases({ phone: { alias: "abstractphone", phoneCodes } })
-Inputmask.extendAliases({ abstractphone: InputmaskPhoneExt.prototype.aliases.abstractphone })
+const InputmaskPhoneExt = maskPhoneFactory(mask)
 
-export const InputMask = Inputmask
+// @ts-ignore
+mask.extendAliases({ phone: { alias: "abstractphone", phoneCodes } })
+mask.extendAliases({ abstractphone: InputmaskPhoneExt.prototype.aliases.abstractphone })
+
+export const Inputmask: typeof inputmask = mask

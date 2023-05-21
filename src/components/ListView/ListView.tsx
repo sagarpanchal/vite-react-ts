@@ -10,7 +10,7 @@ import { EMPTY_VALUES } from "utils/utils.constants"
 
 import { useInput, usePagination } from "hooks"
 import { useBackendAPI } from "hooks/useBackendAPI"
-import { INPUT_MASKS } from "libraries/InputMask/input-masks"
+import { INPUT_MASKS } from "libraries/inputmask/input-masks"
 import { cx, isArray, logInfo } from "utils"
 
 type Todo = {
