@@ -35,9 +35,10 @@ export function useIsIntersecting(ref: React.MutableRefObject<HTMLElement>, opti
   React.useLayoutEffect(() => {
     // stop observing when rendered
     if (isIntersecting && options.freezeOnceVisible) return
+    if (!observer) return
 
-    catchError(() => observer.observe(ref.current))
-    return () => void catchError(() => observer.disconnect())
+    observer.observe(ref.current)
+    return () => void observer.disconnect()
   }, [isIntersecting, observer, options.freezeOnceVisible, ref])
 
   return isIntersecting
