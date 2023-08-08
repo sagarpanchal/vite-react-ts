@@ -1,6 +1,6 @@
 import React from "react"
 
-import { useRegisterSW } from "virtual:pwa-register/react" // eslint-disable-line import/no-unresolved
+import { useRegisterSW } from "virtual:pwa-register/react"
 
 import { cx } from "utils"
 

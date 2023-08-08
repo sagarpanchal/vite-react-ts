@@ -41,7 +41,7 @@
     "import/no-named-as-default": 1,
     "import/no-named-as-default-member": 0,
     "import/no-self-import": 2,
-    "import/no-unresolved": 2,
+    "import/no-unresolved": [2, { "ignore": ["^virtual:"] }],
     "import/no-useless-path-segments": [2, { "noUselessIndex": true }],
     "import/order": [
       1,
