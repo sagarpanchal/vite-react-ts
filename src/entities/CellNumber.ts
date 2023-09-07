@@ -1,78 +1,65 @@
-import { parsePhoneNumber, PhoneNumber } from "libphonenumber-js"
-import type { CountryCallingCode, NationalNumber, NumberFormat } from "libphonenumber-js"
-import metadata from "libphonenumber-js/metadata.full.json"
+import type { FormatNumberOptions, NumberFormat, PhoneNumber } from "libphonenumber-js"
+import { AsYouType } from "libphonenumber-js"
+// import metadata from "libphonenumber-js/metadata.full.json"
 
-import { catchError, logInfo } from "utils"
+import { catchError, chain } from "utils"
 
 export class CellNumber {
   static identifier = "CellNumber"
 
-  #nationalNumber: NationalNumber
-  #countryCallingCode: CountryCallingCode
-  #parsedNumber: PhoneNumber
+  #input: string
+  #asYouType = new AsYouType()
+  #phoneNumber?: PhoneNumber
 
-  constructor(public input: string) {
-    const { countryCallingCode, nationalNumber } = catchError(
-      () => parsePhoneNumber(this.input) ?? {},
-      () => ({}) as PhoneNumber,
-    )
-
-    this.#nationalNumber = nationalNumber
-    this.#countryCallingCode = CellNumber.COUNTRY_CALLING_CODES?.[countryCallingCode]?.[0] ?? countryCallingCode
-
-    this.#parsedNumber = catchError(
-      () => new PhoneNumber(this.#countryCallingCode, this.#nationalNumber, metadata),
-      () => ({}) as PhoneNumber,
-    )
-
-    logInfo({ countryCallingCode, nationalNumber, isValid: this.isValid })
+  constructor(input: string) {
+    this.#input = input
+    this.#phoneNumber = chain(this.#asYouType)
+      .call((i) => i.input(input))
+      .call((i) => i.getNumber())
+      .result()
   }
 
-  static get COUNTRIES() {
-    return metadata.countries
-  }
+  // static get COUNTRIES() {
+  //   return metadata.countries
+  // }
 
-  static get COUNTRY_CALLING_CODES() {
-    return metadata.country_calling_codes
-  }
+  // static get COUNTRY_CALLING_CODES() {
+  //   return metadata.country_calling_codes
+  // }
 
   static isCellNumber(input: unknown): input is CellNumber {
     return input?.constructor === CellNumber
   }
 
   clone() {
-    return new CellNumber(this.input)
+    return new CellNumber(this.#input)
   }
 
-  format(type: NumberFormat = "NATIONAL") {
+  format(type: NumberFormat = "NATIONAL", options?: FormatNumberOptions) {
     return catchError(
-      () => this.#parsedNumber.format?.(type),
+      () => this.#phoneNumber?.format?.(type, options),
       () => undefined,
     )
   }
 
   get isPossible() {
-    return this.#parsedNumber.isValid?.() ?? false
+    return this.#asYouType.isPossible()
   }
 
   get isValid() {
-    return this.#parsedNumber.isValid?.() ?? false
+    return this.#asYouType.isValid()
   }
 
   get country() {
-    return this.#parsedNumber.country
+    return this.#asYouType.getCountry()
   }
 
   get countryCallingCode() {
-    return this.#parsedNumber.countryCallingCode
+    return this.#asYouType.getCallingCode()
   }
 
   get nationalNumber() {
-    return this.#parsedNumber.nationalNumber
-  }
-
-  get number() {
-    return this.#parsedNumber.number
+    return this.#asYouType.getNationalNumber()
   }
 
   get intl() {
@@ -84,10 +71,10 @@ export class CellNumber {
   }
 
   toString() {
-    return this.number
+    return this.#input
   }
 
   valueOf() {
-    return this.number
+    return this.#input
   }
 }

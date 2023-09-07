@@ -35,7 +35,7 @@
     "inputmask": "^5.0.8",
     "inputmask.phone": "^1.0.5",
     "invariant": "^2.2.4",
-    "libphonenumber-js": "^1.10.28",
+    "libphonenumber-js": "^1.10.44",
     "lodash-es": "^4.17.21",
     "luxon": "^3.4.3",
     "react": "^18.2.0",
