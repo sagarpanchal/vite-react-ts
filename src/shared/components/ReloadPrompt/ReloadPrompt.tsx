@@ -7,7 +7,7 @@ import { cx } from "utils"
 import styles from "./ReloadPrompt.module.scss"
 
 export function ReloadPrompt() {
-  const updateIntervalIdRef = React.useRef<NodeJS.Timer>()
+  const updateIntervalIdRef = React.useRef<NodeJS.Timeout>()
 
   const {
     needRefresh: [needRefresh, setNeedRefresh],
@@ -18,9 +18,12 @@ export function ReloadPrompt() {
 
       clearInterval(updateIntervalIdRef.current)
       if (registration) {
-        updateIntervalIdRef.current = setInterval(() => {
-          registration.update()
-        }, 60 * 60 * 1000)
+        updateIntervalIdRef.current = setInterval(
+          () => {
+            registration.update()
+          },
+          60 * 60 * 1000,
+        )
       }
     },
     onRegisterError: (error) => {

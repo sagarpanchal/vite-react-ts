@@ -14,7 +14,7 @@ export class CellNumber {
   constructor(public input: string) {
     const { countryCallingCode, nationalNumber } = catchError(
       () => parsePhoneNumber(this.input) ?? {},
-      () => ({} as PhoneNumber),
+      () => ({}) as PhoneNumber,
     )
 
     this.#nationalNumber = nationalNumber
@@ -22,7 +22,7 @@ export class CellNumber {
 
     this.#parsedNumber = catchError(
       () => new PhoneNumber(this.#countryCallingCode, this.#nationalNumber, metadata),
-      () => ({} as PhoneNumber),
+      () => ({}) as PhoneNumber,
     )
 
     logInfo({ countryCallingCode, nationalNumber, isValid: this.isValid })
