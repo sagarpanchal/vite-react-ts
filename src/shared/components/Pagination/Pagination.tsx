@@ -150,7 +150,7 @@ export const Pagination = React.memo<PaginationProps>((props) => {
               role="link"
               aria-label={`Goto Previous Page`}
               href="#"
-              className={cx("page-link")}
+              className={cx("page-link", "rounded-end-0")}
               onClick={gotoPrevPage}
             >
               <FontIcon type="chevron-left" />
@@ -175,7 +175,7 @@ export const Pagination = React.memo<PaginationProps>((props) => {
                   aria-label={`Goto Page ${_page}`}
                   aria-current={isActive ? "true" : "false"}
                   href="#"
-                  className={cx("page-link")}
+                  className={cx("page-link", "rounded-0")}
                   onClick={handleClick}
                 >
                   {_page}
@@ -184,7 +184,13 @@ export const Pagination = React.memo<PaginationProps>((props) => {
             )
           })}
           <div className={cx("page-item")}>
-            <a role="link" aria-label={`Goto Next Page`} href="#" className={cx("page-link")} onClick={gotoNextPage}>
+            <a
+              role="link"
+              aria-label={`Goto Next Page`}
+              href="#"
+              className={cx("page-link", "rounded-start-0")}
+              onClick={gotoNextPage}
+            >
               <FontIcon type="chevron-right" />
             </a>
           </div>
