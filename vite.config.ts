@@ -13,48 +13,46 @@ import tsconfigPaths from "vite-tsconfig-paths"
 import { default as manifest } from "./manifest.json"
 
 // https://vitejs.dev/config/
-export default defineConfig(() => {
-  return {
-    resolve: {
-      alias: {
-        ["styles"]: path.resolve(__dirname, "src", "styles"),
-      },
+export default defineConfig({
+  resolve: {
+    alias: {
+      ["styles"]: path.resolve(__dirname, "src", "styles"),
     },
-    test: {
-      environment: "jsdom",
-      coverage: {
-        reporter: ["text", "html"],
-      },
+  },
+  test: {
+    environment: "jsdom",
+    coverage: {
+      reporter: ["text", "html"],
     },
-    server: {
-      host: true,
+  },
+  server: {
+    host: true,
+  },
+  css: {
+    preprocessorOptions: {
+      scss: { quietDeps: true },
     },
-    css: {
-      preprocessorOptions: {
-        scss: { quietDeps: true },
-      },
-    },
-    plugins: [
-      tsconfigPaths(),
-      checker({
-        eslint: !process.env.VITEST && { lintCommand: 'eslint "src/**/*.{ts,tsx,js,jsx}"' },
-        typescript: true,
-      }),
-      styleLint({
-        fix: !process.env.VITEST,
-        cache: false,
-      }),
-      pwa({
-        devOptions: { enabled: false },
-        includeAssets: ["vite.svg"],
-        manifestFilename: "manifest.json",
-        manifest: manifest as Partial<ManifestOptions>,
-        registerType: "autoUpdate",
-        workbox: { globPatterns: ["**/*.{js,css,html}", "**/*.{svg,png,jpg,gif}"] },
-      }),
-      react(),
-      reactSVG(),
-      visualizer({ open: true }) as PluginOption,
-    ],
-  }
+  },
+  plugins: [
+    tsconfigPaths(),
+    checker({
+      eslint: !process.env.VITEST && { lintCommand: 'eslint "src/**/*.{ts,tsx,js,jsx}"' },
+      typescript: true,
+    }),
+    styleLint({
+      fix: !process.env.VITEST,
+      cache: false,
+    }),
+    pwa({
+      devOptions: { enabled: false },
+      includeAssets: ["vite.svg"],
+      manifestFilename: "manifest.json",
+      manifest: manifest as Partial<ManifestOptions>,
+      registerType: "autoUpdate",
+      workbox: { globPatterns: ["**/*.{js,css,html}", "**/*.{svg,png,jpg,gif}"] },
+    }),
+    react(),
+    reactSVG(),
+    visualizer({ open: true }) as PluginOption,
+  ],
 })
