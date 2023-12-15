@@ -1,9 +1,10 @@
+/// <reference types="vitest" />
 import { defineConfig, PluginOption } from "vite"
 
 import path from "path"
 
 import react from "@vitejs/plugin-react-swc"
-import visualizer from "rollup-plugin-visualizer"
+import { visualizer } from "rollup-plugin-visualizer"
 import { checker } from "vite-plugin-checker"
 import { VitePWA as pwa, ManifestOptions } from "vite-plugin-pwa"
 import styleLint from "vite-plugin-stylelint"

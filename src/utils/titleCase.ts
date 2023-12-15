@@ -18,10 +18,10 @@ export function titleCase(input: string, locale = LOCALE): string {
         (list[index + 1] !== "-" || (list[index - 1] === "-" && list[index + 1] === "-"))
         ? current.toLocaleLowerCase(locale)
         : current.substr(1).search(/[A-Z]|\../) > -1 // Ignore intentional capitalization
-        ? current
-        : list[index + 1] === ":" && list[index + 2] !== "" // Ignore URLs
-        ? current
-        : current.replace(/([A-Za-z0-9\u00C0-\u00FF])/, (match) => match.toLocaleUpperCase(locale)) // Capitalize the first letter
+          ? current
+          : list[index + 1] === ":" && list[index + 2] !== "" // Ignore URLs
+            ? current
+            : current.replace(/([A-Za-z0-9\u00C0-\u00FF])/, (match) => match.toLocaleUpperCase(locale)) // Capitalize the first letter
     )
   })
   return words.join("")

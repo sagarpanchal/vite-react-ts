@@ -1,7 +1,7 @@
 import React from "react"
 import { Navbar } from "react-bootstrap"
 
-import { ReactComponent as ReactLogo } from "shared/assets/react-logo.svg"
+import ReactLogo from "shared/assets/react-logo.svg?react"
 
 import { ListView } from "components/ListView"
 import { NavbarThemeSwitch } from "components/ThemeSwitcher"
